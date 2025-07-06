@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
+
     <title>{% block title %}{% endblock %}</title>
 
     <style>
@@ -12,19 +12,68 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #3B1C32;
+            background-color: #220000;
+            padding-top: 70px; /* Add space at the top to prevent content from being hidden behind the fixed header */
         }
-        .headder{
-            background-color:#AD49E1;
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #fc0339;
+            display: flex;
+            flex-direction: column;
+            padding: 1vh;
+            color: white;
+            width: 100%;
+            box-sizing: border-box; 
+            z-index: 1000; /* Ensure the header stays on top */
+        }
+
+        #search {
+            background-color: #220000;
+            border: none;
+            border-radius: 2vh;
+            justify-items: center;
+            max-width: 100%;
+            padding: 2vh;
+            color: white;
+        }
+
+        .hc {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between; /* Space out the content (text to left, icon to right) */
+            align-items: center; /* Vertically align both items */
+            padding: 10px;
+           
+        }
+
+        .profile-icon {
+            font-size: 7vh;
+            color: #333;
         }
     </style>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     {% block head %}{% endblock %}
-</head>git add .
+</head>
 
 <body>
-    <div class="headder">
-        <h1>SpiceSling</h1>
+
+    <!-- Header Section (Fixed at the top) -->
+    <div class="header">
+        <div class="hc">
+            <p><b>HOME</b><br>Your current address</p>
+            <i class="fas fa-user-circle profile-icon"></i>
+        </div>
+        
+        <!-- Search Bar -->
+        <input id="search" placeholder="Search for hotels">
     </div>
-     {% block body %}{% endblock %}
+    
+    <!-- Main Content Block -->
+    {% block body %}{% endblock %}
+
 </body>
 </html>
