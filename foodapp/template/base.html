@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <title>{% block title %}{% endblock %}</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #3B1C32;
+        }
+        .headder{
+            background-color:#AD49E1;
+        }
+    </style>
+    {% block head %}{% endblock %}
+</head>git add .
+
+<body>
+    <div class="headder">
+        <h1>SpiceSling</h1>
+    </div>
+     {% block body %}{% endblock %}
+</body>
+</html>
