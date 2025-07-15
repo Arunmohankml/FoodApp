@@ -141,7 +141,7 @@ def edit_item(request, item_id):
         form = ItemAddingForm(instance=item)
     return redirect('managePage')  # Fallback
 
-@login_required(login_url='login')
+
 def search(request):
     query = request.GET.get('q', '')
     if query:
