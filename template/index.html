@@ -1,0 +1,168 @@
+{%extends 'base.html' %}
+
+{% block head %}
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+ <style>
+            .header {
+                
+               
+                background-color: #ff0022;
+                display: flex;
+                flex-direction: column;
+                padding: 1vh 3vw;
+                color: rgb(29, 29, 29);
+                width: 100%;
+                box-sizing: border-box;
+                z-index: 1000;
+                min-height: 12vh;
+            }
+
+            .hc {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 2vw;
+            }
+
+            .profile-icon {
+                font-size: 6vh;
+                color: #333;
+            }
+
+            .reg-btn {
+                border: 2px solid rgb(24, 24, 24);
+                padding: 1vh 2vw;
+                font-size: 2vh;
+                color: rgb(12, 12, 12);
+                border-radius: 3vh;
+            }
+
+            #search {
+                margin-top: 1vh;
+                background-color: #0f0f0f;
+                border: none;
+                border-radius: 10px;
+                width: 93%;
+                padding: 1.5vh 2vw;
+                color: white;
+                font-size: 2vh;
+            }
+
+            a {
+                color: inherit;
+                text-decoration: none;
+            }
+        .content-cont{
+            display:flex;
+            flex-direction: column;
+            padding-top: 2vh;
+            margin-bottom:3vh;
+        }
+        .items-cont{
+            display:flex;
+            flex-direction: row;
+            overflow-x: auto;
+            gap:1vh;
+        }
+        .item {
+          display: flex;
+          flex: 0 0 auto;
+          flex-direction: column;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+          border-radius: 2vh;
+          justify-content: flex-start;
+          align-items: center;
+          width: 22vh; 
+          height: 30vh;
+          margin: 1vh;
+          background-color: #ff0022;
+          padding: 1vh;
+          box-sizing: border-box;
+      }
+
+        .item img{
+            width: 20vh;
+            height: 20vh;
+            object-fit: cover; 
+            border-radius: 1.5vh;
+        }
+
+        .item-body{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 1vh;
+            text-align: center;
+        }
+        .item-name {
+          margin-bottom: 4px;
+          font-size:2vh;
+        }
+
+        .item-desc {
+          margin-top: 4px;
+          overflow-y:auto;
+        }
+        .items-section h3{
+          font-size:3vh;
+          margin-bottom:0;
+          margin-top:1vh;
+          color:#ff0040;
+        }
+        .items-section {
+          padding:2vh;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+          margin-bottom:2vh;
+          border:0;
+          border-radius: 2vh;
+        }
+    </style>
+{% endblock %}
+
+ {% block body %}
+     <!-- Header Section (Fixed at the top) -->
+    <div class="header">
+        <div class="hc">
+            <p><b>HOME</b><br>Your current address</p>
+            {%if logged%}
+                <a href="{%url 'profile'%}"><i class="fas fa-user-circle profile-icon"></i></a>        
+                
+            {%else%}
+                <a href="{%url 'register'%}"><div class="reg-btn">Register</div></a>
+            {%endif%}
+        </div>
+        
+        <!-- Search Bar -->
+       
+        <form action="{% url 'search' %}" method="get">
+          <input type="text" name="q" id="search" placeholder="Search for hotels">
+          <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="content-cont">
+
+      {% for section in sections %}
+        <div class="items-section">
+          <h3>{{ section.name }}</h3>
+          <div class="items-cont">
+            {% for item in items %}
+              {% if item.section == section %}
+              <a href="{% url 'itemsPage' item.name %}">
+                <div class="item">
+                  <div class="item-body">
+                    <img src="{{ item.image.url }}" alt="">
+                    <h5 class="item-name">{{ item.name }}</h5>
+                  </div>
+                </div>
+              </a>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+
+    </div>
+
+
+{% endblock %}

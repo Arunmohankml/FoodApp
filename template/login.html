@@ -1,0 +1,69 @@
+{%extends 'base.html' %}
+
+{% block head %}
+ <style>
+       .cont {
+            background-color: #070707;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            
+        }
+        .login-cont {
+            background-color: #ff0022;
+            display: flex;
+            flex-direction: column;
+            padding:3vh;
+            border-radius: 2vh;
+            justify-content: center;
+            
+        }
+
+        .input {
+            background-color: #0f0f0f;
+            border:0;
+            padding:1.6vh;
+            border-radius: 2vh;
+            margin-bottom:3vh;
+        }
+
+        .button {
+            background-color: #0f0f0f;
+            color:white;
+            border:0;
+            padding:1.6vh;
+            border-radius: 2vh;
+            margin-bottom:3vh;
+            font-weight: bold;
+            width:50%;
+            align-self: center;
+        }
+    </style>
+{% endblock %}
+
+ {% block body %}
+<div class="cont">
+  <div class="login-cont">
+    <form method="POST">
+      {% csrf_token %}
+
+      <span style="font-weight: bold;">Username</span><br>
+      <input type="text" name="username" class="input" placeholder="Enter your username" required><br>
+
+      <span style="font-weight: bold;">Password</span><br>
+      <input type="password" name="password" class="input" placeholder="Enter your password" required><br>
+
+      <button type="submit" class="button">Login</button><br>
+
+        {% if error_message %}
+            <div style="color:red;">
+                <p>{{ error_message }}</p>
+            </div>
+        {% endif %}
+    </form>
+  </div>
+</div>
+ {% endblock %}

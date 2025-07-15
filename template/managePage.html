@@ -1,0 +1,228 @@
+{%extends 'base.html' %}
+
+{% block head %}
+ <style>
+       
+        .card {
+            background-color: #ff0037;
+            color:rgb(17, 17, 17);
+            border:0;
+            padding:1.6vh;
+            border-radius: 2vh;
+            font-weight: bold;
+            width:50%;
+            align-self: center;
+        }
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+        .u-container{
+            display:flex;
+            flex-direction: column;
+            color:white;
+            align-items: center;
+        }
+        .m-container{
+            display:flex;
+            flex-direction: column;
+            color:white;
+        }
+        
+        #creation-form {
+            margin-top: 2vh;
+            background: #ff0040;
+            padding: 2vh;
+            border-radius: 2vh;
+            width: 80%;
+            align-self: center;
+        }
+        .hotel-name{
+            text-align: center;
+            font-size: 3vh;
+            font-weight: bold;
+        }
+        .items-cont {
+            display: flex;
+            flex-direction: row;
+            overflow-x: auto;
+            gap: 1vh;
+            padding: 1vh;
+        }
+
+        .item {
+            display: flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border-radius: 2vh;
+            justify-content: flex-start;
+            align-items: center;
+            width: 20vh;
+            height:auto;
+            margin: 1vh;
+            border: 0.3vh solid #ff0022;
+            padding: 1vh;
+            box-sizing: border-box;
+        }
+
+        .item img {
+            width: 17vh;
+            height: 15vh;
+            object-fit: cover;
+            border-radius: 1.5vh;
+        }
+
+        .item-body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 1vh;
+            text-align: center;
+            
+        }
+
+        .item-name {
+            font-size: 1.7vh;
+            margin-top: 0.4vh;
+            margin-bottom: 0vh;
+            text-align: center;
+            line-height: 2.4vh;
+            padding: 0 0.5vh;
+            word-wrap: break-word;
+        }
+
+        .item-desc {
+            margin-top: 0.5vh;
+            overflow-y: auto;
+            max-height: 4vh;
+            font-size: 1.6vh;
+            color: #fff;
+            margin-bottom: 0vh;
+        }
+
+        .items-section h3 {
+            font-size: 3vh;
+            margin-bottom: 0;
+            margin-top: 1vh;
+            color: #ff0040;
+        }
+
+        .items-section {
+            padding: 2vh;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            margin-bottom: 2vh;
+            border-radius: 2vh;
+        }
+        .edit-btn {
+            margin-top: 1vh;
+            padding: 0.8vh 1.5vh;
+            border-radius: 1vh;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .content-cont{
+            display:flex;
+            flex-direction: column;
+            padding-top: 2vh;
+            margin-bottom:3vh;
+        }
+        .h-button{
+            background-color:#ff0040;
+            height: 4vh;
+            text-align: center;
+        }
+        .h-button p{
+            margin:0;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+
+{% if role == 'user' %}
+   <div class="u-container">
+        <p>There are no hotels to show</p>
+         <div id="fbtn" onclick="openMenu1()" class="h-button">Add a new restaurent</div>
+    </div>
+    <form method="POST" action="{% url 'addRestaurant' %}" enctype="multipart/form-data" id="creation-form" style="display:none;">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Restaurant</button>
+    </form>
+{%else%}
+    <div class="m-container">
+        <div class="hotel-name">Your hotel {{ hotel.name }}</div>
+        
+        <div id="sbtn" onclick="openMenu2()" class="h-button">
+            <p>Add a new item</p>
+        </div>
+
+        <form method="POST" action="{% url 'addItem' %}" enctype="multipart/form-data" id="item-form" style="display:none;">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Add Item</button>
+        </form>
+
+        <div class="content-cont" id="items-cont">
+            {% for type in types %}
+            <div class="items-section">
+                <h3>{{ type.name }}</h3>
+                <div class="items-cont">
+                    {% for item in items %}
+                        {% if item.type == type %}
+                        <div class="item">
+                            <img src="{{ item.image.url }}" alt="{{ item.name }}">
+                            <div class="item-body">
+                                <h5 class="item-name">{{ item.name }}</h5>
+                                <p class="item-desc">{{ item.desc }}</p> 
+
+                                <button onclick="toggleEditForm('{{ item.id }}')" class="edit-btn">Edit</button>
+
+                            </div>
+                        </div>
+
+                        <form id="edit-form-{{ item.id }}" method="POST" action="{% url 'editItem' item.id %}" enctype="multipart/form-data" style="display:none; margin-top: 1vh;">
+                            {% csrf_token %}
+                           <input type="text" name="name" value="{{ item.name }}" required>
+                           <input type="text" name="desc" value="{{ item.desc }}" required>
+                           <input type="file" name="image">
+                           <button type="submit">Save</button>
+                        </form>
+                        
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{%endif%}
+
+
+
+<script>
+    function openMenu1(){
+        btn=document.getElementById("fbtn");
+        btn.style.display='none';
+        form=document.getElementById("creation-form");
+        form.style.display = 'block';
+    }
+     function openMenu2(){
+        btn=document.getElementById("sbtn");
+        cont=document.getElementById("items-cont");
+        btn.style.display='none';
+        cont.style.display='none';
+        form=document.getElementById("item-form");
+        form.style.display = 'block';
+    }
+    function toggleEditForm(itemId) {
+            const form = document.getElementById(`edit-form-${itemId}`);
+            form.style.display = form.style.display === "none" ? "block" : "none";
+        }
+</script>
+    
+ {% endblock %}

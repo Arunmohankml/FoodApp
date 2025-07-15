@@ -1,0 +1,32 @@
+{%extends 'base.html' %}
+
+{% block head %}
+ <style>
+       
+        .card {
+            background-color: #ff0037;
+            color:rgb(17, 17, 17);
+            border:0;
+            padding:1.6vh;
+            border-radius: 2vh;
+            font-weight: bold;
+            width:50%;
+            align-self: center;
+        }
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+    </style>
+{% endblock %}
+
+ {% block body %}
+<div class="card">
+  <p>You are {{username}}</p>
+  
+  <a href="{% url 'logout' %}"><button class="button">LOGOUT</button></a>
+</div>
+
+    
+    
+ {% endblock %}

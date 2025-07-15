@@ -1,0 +1,83 @@
+{%extends 'base.html' %}
+
+{% block head %}
+ <style>
+       .cont {
+            background-color: #070707;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            
+        }
+        .register-cont {
+            background-color: #ff0022;
+            display: flex;
+            flex-direction: column;
+            padding:3vh;
+           
+            border-radius: 2vh;
+            justify-content: center;
+            
+        }
+
+        .input {
+            background-color: #0f0f0f;
+            border:0;
+            padding:1.6vh;
+            border-radius: 2vh;
+            margin-bottom:3vh;
+        }
+
+        .button {
+            background-color: #0f0f0f;
+            color:white;
+            border:0;
+            padding:1.6vh;
+            border-radius: 2vh;
+            margin-bottom:3vh;
+            font-weight: bold;
+            width:50%;
+            align-self: center;
+        }
+    </style>
+{% endblock %}
+
+ {% block body %}
+<div class="cont">
+  <div class="register-cont">
+    <form method="POST">
+      {% csrf_token %}
+      {% for field in form %}
+        
+        {% if field.name == 'password1' %}
+          <span style="font-weight: bold;">Password</span><br>
+          {{ field }}<br>
+          
+        {% elif field.name == 'password2' %}
+          <span style="font-weight: bold;">Re-enter Password</span><br>
+          {{ field }}<br>
+          
+        {% else %}
+          <span style="font-weight: bold;">{{ field.label }}</span><br>
+          {{ field }}<br>
+        {% endif %}
+
+
+        {% if field.errors %}
+          <div class="text-danger small">{{ field.errors }}</div><br>
+        {% endif %}<br>
+
+
+      {% endfor %}
+      <button type="submit" class="button">Register</button><br>
+      <a href="{% url 'login' %}">Already have an account? <strong>LOGIN</strong></a>
+    </form>
+  </div>
+</div>
+
+    
+    
+ {% endblock %}

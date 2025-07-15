@@ -1,0 +1,110 @@
+{%extends 'base.html' %}
+
+{% block head %}
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+ <style>
+  
+
+        a {
+                color: inherit;
+                text-decoration: none;
+        }
+        .content-cont{
+            display:flex;
+            flex-direction: column;
+            padding-top: 2vh;
+            margin-bottom:3vh;
+        }
+        .items-cont{
+            display:flex;
+            flex-direction: row;
+            overflow-x: auto;
+            gap:1vh;
+        }
+        .item {
+          display: flex;
+          flex: 0 0 auto;
+          flex-direction: column;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+          border-radius: 2vh;
+          justify-content: flex-start;
+          align-items: center;
+          width: 22vh; 
+          height: 30%;
+          margin: 1vh;
+          background-color: #ff0022;
+          padding: 1vh;
+          box-sizing: border-box;
+          overflow: hidden;
+      }
+
+        .item img{
+            width: 20vh;
+            height: 20vh;
+            object-fit: cover; 
+            border-radius: 1.5vh;
+        }
+
+        .item-body{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 1vh;
+            text-align: center;
+        }
+        .item-name {
+            margin-top: 0;
+            margin-bottom: 4px;
+            font-size:2.3vh;
+            font-weight: bold;
+        }
+
+        .item-desc {
+          margin-top: 4px;
+          overflow-y:hidden;
+          text-overflow: ellipsis;
+          font-size:60%;
+        }
+        .items-section h3{
+          font-size:3vh;
+          margin-bottom:0;
+          margin-top:1vh;
+          color:#ff0040;
+        }
+        .items-section {
+          padding:2vh;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+          margin-bottom:2vh;
+          border:0;
+          border-radius: 2vh;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="content-cont">
+  {% for hotel in hotels %}
+    <div class="items-section">
+      <h3>{{ hotel.name }}</h3>
+      <div class="items-cont">
+        {% for shopitem in shopitems %}
+          {% if shopitem.hotel == hotel %}
+            {% if shopitem.type == current_section %}
+              <div class="item">
+                <div class="item-body">
+                  <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/1f/1d/b8/large-plated-desserts.jpg?w=800&h=400&s=1" alt="">
+                    <p class="item-rating" style="border-radius: 3vh; font-size: 2vh; padding: 6%; background-color: rgb(255, 255, 255); color: rgb(36, 36, 36); font-weight: bold; margin-top: 10%; margin-bottom: 1vh;">
+                      Rating: {{ shopitem.rating }}/5
+                    </p>
+                   <h5 class="item-name">{{ shopitem.name }}</h5>
+                   <h4 class="item-desc">{{ shopitem.desc }}</h4>
+                </div>
+              </div>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

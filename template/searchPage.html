@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f1f1f1;
+  }
+
+  .header {
+    background-color: #ff0022;
+    padding: 2vh 4vw 2vh;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .hc {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .hc p {
+    font-size: 2.2vh;
+    margin: 0;
+  }
+
+  #search {
+    margin-top: 2vh;
+    background-color: #1f1f1f;
+    border: none;
+    border-radius: 1.2vh;
+    width: 100%;
+    padding: 1.2vh 2vw;
+    color: white;
+    font-size: 2vh;
+    outline: none;
+  }
+
+  .content-cont {
+    padding: 2vh 4vw 5vh;
+  }
+
+  .hotels {
+    background-color: #1a1a1a;
+    padding: 2vh;
+    border-radius: 1.5vh;
+    margin-bottom: 3vh;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  }
+
+  .hotels h2 {
+    font-size: 2.5vh;
+    margin: 0 0 1.5vh 0;
+    color: #fafafa;
+  }
+
+  .items-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 1.5vh;
+    scroll-snap-type: x mandatory;
+  }
+
+  .item {
+    flex: 0 0 auto;
+    width: 34vh;
+    height: 15vh;
+    background-color: #1a1a1a;
+    border-radius: 1.8vh;
+    border:0.08vh solid rgb(255, 0, 0);
+    display: flex;
+    padding: 1vh;
+    scroll-snap-align: start;
+  }
+
+  .sidelayot {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .item img {
+    border:0.08vh solid rgb(219, 219, 219);
+    width: 38%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1.2vh;
+  }
+
+  .downlayot {
+    display: flex;
+    flex-direction: column;
+    
+    margin-left: 1.2vh;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .item-name {
+    font-size: 2vh;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+    color: #fafafa;
+  }
+
+  .item-price {
+    background-color: rgba(255, 235, 59, 0.15);
+    color: #fafafa;
+    font-size: 1.7vh;
+    width: fit-content;
+    padding: 0.3vh 0.8vh;
+    border-radius: 1vh;
+  }
+
+  .rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5vh;
+    font-size: 1.7vh;
+    color: #555;
+  }
+
+  .rating i {
+    color: #ffc107;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="header">
+  <div class="hc">
+    <p><b>HOME</b><br>Your current address</p>
+  </div>
+  <form method="get">
+    <input id="search"  name='q' placeholder="Search for hotels">
+  <button type="submit">Search</button>
+</form>
+</div>
+
+<div class="content-cont">
+  {% for hotel in hotels %}
+  <div class="hotels">
+    <h2>{{ hotel.name }}</h2>
+    <div class="items-container">
+     {% for item in hotel.shop_items.all %}
+      <div class="item">
+        <div class="sidelayot">
+         <img src="{{ item.image.url }}" alt="{{ item.name }}">
+          <div class="downlayot">
+            <p class="item-name">{{ item.name }}</p>
+            <p class="item-price">₹{{ item.price }}</p>
+            <div class="rating">
+              <i class="fa fa-star"></i>
+              <span>{{ item.rating }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

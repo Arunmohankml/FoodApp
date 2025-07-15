@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>{% block title %}{% endblock %}</title>
+
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    {% block head %}{% endblock %}
+
+    <style>
+        
+         body, html {
+            height: 100%;
+            background-color: #0f0f0f;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+         .main-content {
+            flex: 1;
+            /* Pushes footer to bottom if space exists */
+        }
+        .screen{
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .box-cont{
+            position:fixed;
+            display:flex;
+            flex-direction:row;
+            padding:0px;
+            justify-content: space-around;
+            bottom: 0;
+            left:0;
+            width: 100%;
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.5);
+            background-color: #ff0022;
+        }
+        .box{
+            flex: 1;
+            text-align: center;
+            border:0;
+
+            background-color: #ff0022;
+            width:100%;
+            padding:1.5vh;
+            
+        }
+    </style>
+</head>
+
+<body>
+  <div class="screen">
+    <div class="main-content">
+      {% block body %}{% endblock %}
+    </div>
+    <div class="box-cont">
+      <div class="box" onclick="window.location.href='/'"><i class="fas fa-home" style="color: #131313;"></i></div>
+      <div class="box" onclick="window.location.href='/search/'"><i class="fas fa-search" style="color: #131313;"></i></div>
+      <div class="box" onclick="openScreen()"><i class="fa fa-motorcycle" style="color: #131313;"></i></div>
+      <div class="box" onclick=""><i class="fa fa-user" style="color: #131313;"></i></div>
+      <div class="box" onclick="window.location.href='/managePage/'"><i class="fa fa-hotel" style="color: #131313;"></i></div>
+    </div>
+  </div>
+</body>
+</html>
