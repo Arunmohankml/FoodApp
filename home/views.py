@@ -10,6 +10,8 @@ from .models import Hotels
 from .forms import HotelAddingForm
 from .forms import ItemAddingForm
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
+
 def index(request):
     dict={'sections':Sections.objects.all(),
           'items':Items.objects.all(),
@@ -19,6 +21,7 @@ def index(request):
 def loginPage(request):
     return render(request, 'login.html')
 
+@login_required(login_url='login')
 def profile(request):
     return render(request, 'profile.html')
 
@@ -58,6 +61,7 @@ def user_login(request):
     form = AuthenticationForm()
     return render(request, 'login.html', {'form': form})
 
+@login_required(login_url='login')
 def managePage(request):
     hotel = None
     items = None
@@ -85,7 +89,7 @@ def managePage(request):
         'form': form,
         'hotel': hotel,
     })
-
+@login_required(login_url='login')
 def add_restaurant(request):
     if request.method == "POST":
         form = HotelAddingForm(request.POST, request.FILES)
@@ -101,7 +105,8 @@ def add_restaurant(request):
         form = HotelAddingForm()
     
     return render(request, 'managePage.html', {'form': form})
-
+    
+@login_required(login_url='login')
 def add_item(request):
     if request.method == "POST":
         form = ItemAddingForm(request.POST, request.FILES)
@@ -136,7 +141,7 @@ def edit_item(request, item_id):
         form = ItemAddingForm(instance=item)
     return redirect('managePage')  # Fallback
 
-
+@login_required(login_url='login')
 def search(request):
     query = request.GET.get('q', '')
     if query:
